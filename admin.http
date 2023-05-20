@@ -1,0 +1,48 @@
+### Create New Event
+POST http://localhost:8080/admin/newevent HTTP/1.1 
+Content-Type: application/json
+
+{ 
+    "description":"DJ Nights",
+"enddate": "2023-05-09",
+"location": "Mumbai",
+"startdate": "2023-05-09",
+"time": "9:00",
+"title": "Jay"
+}
+
+### Get All Craeted Events
+GET http://localhost:8080/admin/events 
+
+
+### Get Event By Passing ID
+GET http://localhost:8080/admin/events/1
+
+
+### Delete Event By ID
+DELETE http://localhost:8080/admin/events/1
+
+
+### Update Event 
+PUT http://localhost:8080/admin/updateevent HTTP/1.1 
+Content-Type: application/json
+
+{
+    "id":2,
+    "title": "Inauguration",
+    "description":"Government of India", 
+    "startdate" :"2023-05-10",
+    "enddate":"2023-05-10",
+    "location":"Delhi",
+    "time":"12:00"
+}
+
+### Set tickets
+
+POST http://localhost:8080/admin/events/1/tickets HTTP/1.1 
+Content-Type: application/json
+
+{
+   "type":"asd",
+   "price":200
+}
