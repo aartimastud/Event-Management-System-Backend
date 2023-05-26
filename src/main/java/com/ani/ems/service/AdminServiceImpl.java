@@ -54,7 +54,6 @@ public class AdminServiceImpl implements AdminService {
         adminRepository.deleteById(id);
         return 1;
     }
-
     @Override
     public Integer updateEvent(UpdateEventDto dto) {
         isEventPresent(dto.getId());
@@ -70,8 +69,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private void isEventPresent(Long id) {
-        adminRepository.findById(id).
-                orElseThrow(() -> new NoEventFoundException("No Event found for " + id + " ID"));
+        adminRepository.findById(id).orElseThrow(() -> new NoEventFoundException("No Event found for " + id + " ID"));
     }
 
     @Override
@@ -91,4 +89,40 @@ public class AdminServiceImpl implements AdminService {
     private boolean isValidTicketType(String type) {
         return type.equals("vip") || type.equals("earlybird") || type.equals("group");
     }
+
+    @Override
+    public List<EventListDto> getEventsByName(String name) {
+        List<EventListDto> collect = adminRepository.findAllByTitle(name)
+                .stream()
+                .map(event -> dynamicMapper.convertor(event, new EventListDto()))
+                .collect(Collectors.toList());
+
+        if (collect.isEmpty()) {
+            throw new NoEventFoundException("No event found for the provided name");
+        }
+
+        return collect;
+    }
+
+    @Override
+    public List<EventListDto> getEventsByLocation(String location) {
+        List<EventListDto> collect = adminRepository.findAllByLocation(location)
+                .stream()
+                .map(event -> dynamicMapper.convertor(event, new EventListDto()))
+                .collect(Collectors.toList());
+
+        if (collect.isEmpty()) {
+            throw new NoEventFoundException("No event found for the provided location");
+        }
+
+        return collect;
+    }
+
+//    public List<Ticket> showTicket(){
+////        System.out.println(ticketRepository.findById();
+//
+//        return ticketRepository.findAll();
+//
+//    }
+
 }

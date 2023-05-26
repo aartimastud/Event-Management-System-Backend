@@ -21,6 +21,8 @@ import com.ani.ems.exception.DuplicateEventException;
 import com.ani.ems.exception.UserNotFoundException;
 import com.ani.ems.util.DynamicMapper;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -116,4 +118,18 @@ public class UserServiceImpl implements UserService {
                 .map(ticket -> dynamicMapper.convertor(ticket, new TicketDto()))
                 .collect(Collectors.toList());
     }
+
+//    @Override
+//    public Integer deleteEvent(Long id) {
+//        isEventPresent(id);
+//        adminRepository.deleteById(id);
+//        return 1;
+//    }
+
+
+//    private Event isEventPresent(Long id) {
+//        return adminRepository.findById(id)
+//                .orElseThrow(() -> new NoEventFoundException("No Event found for ID: " + id));
+//    }
+
 }

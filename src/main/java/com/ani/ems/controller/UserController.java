@@ -1,23 +1,22 @@
 package com.ani.ems.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import com.ani.ems.dto.EventListDto;
+import com.ani.ems.dto.NewEventDto;
 import com.ani.ems.dto.TicketDto;
 import com.ani.ems.dto.UserEventDto;
+import com.ani.ems.model.Ticket;
+import com.ani.ems.repository.TicketRepository;
 import com.ani.ems.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ani.ems.util.AppResponse;
 
@@ -30,6 +29,7 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
     private final UserService userService;
+    private final TicketRepository ticketRepository;
 
     @PostMapping(value = "/{userId}/event/{eventId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppResponse<Integer>> newEvent(@Valid @PathVariable Long userId, @PathVariable Long eventId) {
@@ -82,4 +82,25 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.getAllTicketsEventId(eventId));
     }
+
+//    @DeleteMapping(value = "/events/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<AppResponse<Integer>> deleteInvoice(@PathVariable Long id) {
+//
+//        final Integer sts = userService.deleteEvent(id);
+//
+//        final AppResponse<Integer> response = AppResponse.<Integer>builder()
+//                .msg(id+" ID Event Deleted Successfully").bd(sts).build();
+//
+//        return ResponseEntity.status(200).body(response);
+//    }
+
+
+    @GetMapping("/event/{eventId}/price")
+    public List<Ticket> getTicketPricesByEventId(@PathVariable Long eventId) {
+        return ticketRepository.findByEventId(eventId);
+    }
+
+
 }
+
+

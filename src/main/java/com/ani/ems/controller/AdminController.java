@@ -8,19 +8,12 @@ import com.ani.ems.dto.EventListDto;
 import com.ani.ems.dto.NewEventDto;
 import com.ani.ems.dto.TicketDto;
 import com.ani.ems.dto.UpdateEventDto;
+import com.ani.ems.model.Ticket;
 import com.ani.ems.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ani.ems.util.AppResponse;
 
@@ -56,13 +49,16 @@ public class AdminController {
         return ResponseEntity.ok().body(response);
     }
 
+
     @DeleteMapping(value = "/events/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppResponse<Integer>> deleteInvoice(@PathVariable Long id) {
 
         final Integer sts = adminService.deleteEvent(id);
 
         final AppResponse<Integer> response = AppResponse.<Integer>builder()
-                .msg(id+" ID Event Deleted Successfully").bd(sts).build();
+                .msg(id+" ID Event Deleted Successfully")
+                .bd(sts)
+                .build();
 
         return ResponseEntity.status(200).body(response);
     }
@@ -85,4 +81,21 @@ public class AdminController {
                 .msg("ticket created.").bd(setTicket).build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping(value = "/eventlocation", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EventListDto>> findAllByLocation(@RequestParam String location) {
+
+        return ResponseEntity.ok().body(adminService.getEventsByLocation(location));
+    }
+
+    @GetMapping(value = "/eventname", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EventListDto>> findAllByTitle(@RequestParam String title) {
+
+        return ResponseEntity.ok().body(adminService.getEventsByName(title));
+    }
+
+//    @GetMapping(value="/show/tickets")
+//    public List<Ticket> getTicket(){
+//        return adminService.showTicket();
+//    }
 }

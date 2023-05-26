@@ -8,7 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-    Optional<Ticket> findByType(String role);
+    Optional<Ticket> findByType(String type);
 
     List<Ticket> findByEventId(Long eventId);
+
+
+//    void deleteByEventId(Long eventId);
+
+
+//    List<Ticket> findByEventId(Long eventId);
 }

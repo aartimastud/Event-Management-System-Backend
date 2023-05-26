@@ -5,6 +5,7 @@ import java.util.List;
 import com.ani.ems.dto.EventListDto;
 import com.ani.ems.dto.TicketDto;
 import com.ani.ems.dto.UserEventDto;
+import com.ani.ems.model.Ticket;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,4 +19,7 @@ public interface UserService {
     UserEventDto getEvent(Long userId,Long eventId);
 
     List<TicketDto>getAllTicketsEventId(Long eventId);
+//    Integer deleteEvent(Long id);
+
+
 }
